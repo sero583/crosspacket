@@ -20,52 +20,52 @@
       "max_bytes_length": 100000000
     },
     "python": {
-      "output_dir": "./output/python",
+      "output_dir": "./generated/python",
       "package_name": "packets",
       "indent": "    ",
       "type_hints": true
     },
     "typescript": {
-      "output_dir": "./output/typescript",
+      "output_dir": "./generated/typescript",
       "module_name": "packets",
       "indent": "  ",
       "strict_mode": true
     },
     "java": {
-      "output_dir": "./output/java",
+      "output_dir": "./generated/java",
       "package": "com.crosspacket",
       "indent": "    "
     },
     "csharp": {
-      "output_dir": "./output/csharp",
+      "output_dir": "./generated/csharp",
       "namespace": "CrossPacket",
       "indent": "    ",
       "nullable_reference_types": true
     },
     "go": {
-      "output_dir": "./output/go",
+      "output_dir": "./generated/go",
       "package": "packets",
       "indent": "\t"
     },
     "rust": {
-      "output_dir": "./output/rust",
+      "output_dir": "./generated/rust",
       "module_name": "packets",
       "indent": "    "
     },
     "dart": {
-      "output_dir": "./output/dart",
+      "output_dir": "./generated/dart",
       "base_package": "data_packets",
       "indent": "  ",
       "null_safety": true
     },
     "cpp": {
-      "output_dir": "./output/cpp",
+      "output_dir": "./generated/cpp",
       "namespace": "packets",
       "indent": "    ",
       "use_smart_pointers": true
     },
     "php": {
-      "output_dir": "./output/php",
+      "output_dir": "./generated/php",
       "namespace": "App\\DataPackets",
       "indent": "    ",
       "strict_types": true

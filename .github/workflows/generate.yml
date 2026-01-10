@@ -37,13 +37,8 @@ jobs:
 
       - name: Generate all language code
         run: |
-          # Generate to output/ first (default behavior)
+          # Generate directly to generated/ folder (default output)
           python generate.py --all --override --clean
-          
-          # Copy to generated/ folder for Codecov tracking
-          rm -rf generated/
-          mkdir -p generated
-          cp -r output/* generated/
 
       - name: Check for changes
         id: changes

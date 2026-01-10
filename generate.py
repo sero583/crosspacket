@@ -354,7 +354,7 @@ class DartGenerator:
     """Generates Dart/Flutter packet code."""
     
     def __init__(self, config: Dict[str, Any]):
-        self.output_dir = Path(config.get("output_dir", "./output/dart"))
+        self.output_dir = Path(config.get("output_dir", "./generated/dart"))
         self.base_package = config.get("base_package", "data_packets")
         self.indent = config.get("indent", "  ")  # Dart uses 2 spaces
         self.no_msgpack = False
@@ -752,7 +752,7 @@ class PythonGenerator:
     """Generates Python packet code with full serialization support."""
     
     def __init__(self, config: Dict[str, Any]):
-        self.output_dir = Path(config.get("output_dir", "./output/python"))
+        self.output_dir = Path(config.get("output_dir", "./generated/python"))
         self.indent = config.get("indent", "    ")  # PEP 8: 4 spaces
     
     def _i(self, level: int = 1) -> str:
@@ -1377,7 +1377,7 @@ class JavaGenerator:
     """Generates Java packet code."""
     
     def __init__(self, config: Dict[str, Any]):
-        self.output_dir = Path(config.get("output_dir", "./output/java"))
+        self.output_dir = Path(config.get("output_dir", "./generated/java"))
         self.package = config.get("package", "com.crosspacket")
         self.indent = config.get("indent", "    ")  # Java: 4 spaces
     
@@ -1735,7 +1735,7 @@ class TypeScriptGenerator:
     """Generates TypeScript packet code."""
     
     def __init__(self, config: Dict[str, Any]):
-        self.output_dir = Path(config.get("output_dir", "./output/typescript"))
+        self.output_dir = Path(config.get("output_dir", "./generated/typescript"))
         self.indent = config.get("indent", "  ")  # TypeScript: 2 spaces
     
     def _i(self, level: int = 1) -> str:
@@ -1959,7 +1959,7 @@ class RustGenerator:
     """Generates Rust packet code."""
     
     def __init__(self, config: Dict[str, Any]):
-        self.output_dir = Path(config.get("output_dir", "./output/rust"))
+        self.output_dir = Path(config.get("output_dir", "./generated/rust"))
         self.indent = config.get("indent", "    ")  # Rust: 4 spaces
     
     def _i(self, level: int = 1) -> str:
@@ -2079,6 +2079,26 @@ class RustGenerator:
             for file in self.output_dir.glob("*.rs"):
                 file.unlink()
         
+        # Generate Cargo.toml for the crate
+        cargo_path = self.output_dir / "Cargo.toml"
+        if not cargo_path.exists() or override:
+            cargo_content = '''[package]
+name = "crosspacket_generated"
+version = "1.0.0"
+edition = "2021"
+
+[lib]
+path = "mod.rs"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+rmp-serde = "1.3"
+chrono = { version = "0.4", features = ["serde"] }
+'''
+            cargo_path.write_text(cargo_content)
+            print(f"Generated: {cargo_path}")
+        
         # Generate mod.rs
         mod_path = self.output_dir / "mod.rs"
         if not mod_path.exists() or override:
@@ -2100,7 +2120,7 @@ class GoGenerator:
     """Generates Go packet code."""
     
     def __init__(self, config: Dict[str, Any]):
-        self.output_dir = Path(config.get("output_dir", "./output/go"))
+        self.output_dir = Path(config.get("output_dir", "./generated/go"))
         self.package = config.get("package", "packets")
         self.indent = "\t"  # Go uses tabs
     
@@ -2220,7 +2240,7 @@ class CppGenerator:
     """Generates C++ packet code with yyjson and msgpack-c support."""
     
     def __init__(self, config: Dict[str, Any]):
-        self.output_dir = Path(config.get("output_dir", "./output/cpp"))
+        self.output_dir = Path(config.get("output_dir", "./generated/cpp"))
         self.namespace = config.get("namespace", "packets")
         self.indent = config.get("indent", "    ")
     
@@ -2643,7 +2663,7 @@ class CSharpGenerator:
     """Generates C# packet code with System.Text.Json and MessagePack-CSharp support."""
     
     def __init__(self, config: Dict[str, Any]):
-        self.output_dir = Path(config.get("output_dir", "./output/csharp"))
+        self.output_dir = Path(config.get("output_dir", "./generated/csharp"))
         self.namespace = config.get("namespace", "CrossPacket")
         self.indent = config.get("indent", "    ")
     
@@ -2816,7 +2836,7 @@ class PhpGenerator:
     """Generates PHP packet code with json and msgpack extension support."""
     
     def __init__(self, config: Dict[str, Any]):
-        self.output_dir = Path(config.get("output_dir", "./output/php"))
+        self.output_dir = Path(config.get("output_dir", "./generated/php"))
         self.namespace = config.get("namespace", "CrossPacket")
         self.indent = config.get("indent", "    ")
     
